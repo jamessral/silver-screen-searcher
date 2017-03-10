@@ -12,7 +12,6 @@ class Api::V1::MoviesController < ApplicationController
 
   def search
     result = Movies::Search.call(params: search_params)
-    binding.pry
     @movies = result.movies
     respond_with(@movies)
   end

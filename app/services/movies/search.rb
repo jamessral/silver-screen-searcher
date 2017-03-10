@@ -40,6 +40,9 @@ class Movies::Search < Service
         m.title        = movie['title']
         m.overview     = movie['overview']
         m.release_date = movie['release_date']
+        m.popularity   = movie['popularity']
+        m.vote_count   = movie['vote_count']
+        m.vote_average = movie['vote-average']
       end
     end
   end
