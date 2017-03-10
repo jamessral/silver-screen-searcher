@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170310034224) do
+ActiveRecord::Schema.define(version: 20170310134409) do
+
+  create_table "movies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "tmdb_id"
+    t.string   "title"
+    t.string   "overview"
+    t.string   "release_date"
+    t.integer  "popularity"
+    t.integer  "vote_count"
+    t.integer  "vote_average"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["overview"], name: "index_movies_on_overview", using: :btree
+    t.index ["tmdb_id"], name: "index_movies_on_tmdb_id", unique: true, using: :btree
+  end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
