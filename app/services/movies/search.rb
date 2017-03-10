@@ -42,7 +42,7 @@ class Movies::Search < Service
         m.release_date = movie['release_date']
         m.popularity   = movie['popularity']
         m.vote_count   = movie['vote_count']
-        m.vote_average = movie['vote-average']
+        m.vote_average = movie['vote_average']
       end
     end
   end
