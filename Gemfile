@@ -17,6 +17,8 @@ gem 'puma', '~> 3.0'
 # Use devise for authentication
 gem 'devise'
 
+# Use kaminar for pagination
+gem 'kaminari'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
