@@ -4,7 +4,3 @@
 require_relative 'config/application'
 
 Rails.application.load_tasks
-
-task :server do
-  `bundle exec rails s -p 8080`
-end
