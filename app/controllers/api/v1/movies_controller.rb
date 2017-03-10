@@ -12,7 +12,9 @@ class Api::V1::MoviesController < ApplicationController
 
   def search
     result = Movies::Search.call(params: search_params)
-    respond_with(result)
+    binding.pry
+    @movies = result.movies
+    respond_with(@movies)
   end
 
   def update

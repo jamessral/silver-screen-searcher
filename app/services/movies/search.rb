@@ -10,14 +10,15 @@ class Movies::Search < Service
   end
 
   def call
-    check_for_local(params[:title])
-    Result.new(check_for_local(params[:title]))
-  rescue ActiveRecord::RecordNotFounds
-    title = URI.escape(params[:title])
-    uri = URI(BASE_URL + title)
-    response = JSON.parse(Net::HTTP.get(uri))
-    cache_movies(response['results'])
-    Result.new(response['results'])
+    if Movie.exists?(title: params[:title])
+      Result.new(Movie.where(title: params[:title]))
+    else
+      title = URI.escape(params[:title])
+      uri = URI(BASE_URL + title)
+      response = JSON.parse(Net::HTTP.get(uri))
+      cache_movies(response['results'])
+      Result.new(response['results'])
+    end
   end
 
   private
@@ -35,12 +36,11 @@ class Movies::Search < Service
 
   def cache_movies(movies)
     movies.each do |movie|
-      Movie.create(
-        title: movie.title,
-        overview: movie.overview,
-        tmdb_id: movie.id,
-        release_year: movie.release_year
-      )
+      Movie.find_or_create_by(tmdb_id: movie['id']) do |m|
+        m.title        = movie['title']
+        m.overview     = movie['overview']
+        m.release_date = movie['release_date']
+      end
     end
   end
 end
