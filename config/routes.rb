@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     namespace 'v1' do
       post 'registrations', to: 'registrations#create'
       post 'session', to: 'sessions#create'
-      resources :movies, only: [:index, :update]
+      resources :movies, only: :index
       post 'movies/search', to: 'movies#search'
     end
   end

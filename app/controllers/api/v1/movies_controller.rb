@@ -1,23 +1,16 @@
 class Api::V1::MoviesController < ApplicationController
-  respond_to :json
+  respond_to :html, :json
 
   def index
     @movies = Movie.all
     respond_with(@movies)
   end
 
-  def show
-    respond_with(@movie)
-  end
-
   def search
     result = Movies::Search.call(params: search_params)
+    binding.pry
     @movies = result.movies
     respond_with(@movies)
-  end
-
-  def update
-    render :success
   end
 
   private

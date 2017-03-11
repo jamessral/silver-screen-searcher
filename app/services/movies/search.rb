@@ -3,7 +3,7 @@ class Movies::Search < Service
 
   Result = Struct.new(:movies)
 
-  attr_reader :params, :conn
+  attr_reader :params
 
   def initialize(params:)
     @params = params
@@ -11,28 +11,18 @@ class Movies::Search < Service
 
   def call
     if Movie.exists?(title: params[:title])
+      binding.pry
       Result.new(Movie.where(title: params[:title]))
     else
       title = URI.escape(params[:title])
       uri = URI(BASE_URL + title)
-      response = JSON.parse(Net::HTTP.get(uri))
-      cache_movies(response['results'])
-      Result.new(response['results'])
+      resp = JSON.parse(Net::HTTP.get(uri))
+      cache_movies(resp['results'])
+      Result.new(resp['results'])
     end
   end
 
   private
-
-  def create_connection
-    Faraday.new(url: BASE_URL) do |faraday|
-      faraday.adapter Faraday.default_adapter
-      faraday.response :json
-    end
-  end
-
-  def check_for_local(title)
-    Movie.find(title: title)
-  end
 
   def cache_movies(movies)
     movies.each do |movie|
